@@ -12,8 +12,11 @@ ADD . /code/
 RUN pip install -U pip
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Define a variável de ambiente para o Flask saber onde encontrar o arquivo de configuração
+ENV FLASK_APP=app.py
+
 # Make port 5000 available to the world outside this container
 EXPOSE 5000
 
-# Run app.py when the container launches
-CMD ["python", "app.py"]
+# Comando para executar a aplicação Flask quando o contêiner for iniciado
+CMD ["flask", "run", "--host=0.0.0.0"]

@@ -77,21 +77,18 @@ class Usuario(db.Model):
         )
     
     def calcular(self) :
-        if self.age <= 16:
-            if self.weight <= 10:
-                self.total_liquido_ml = self.weight * 100
-                self.formula = '100ml/kg/dia'
-            elif self.weight <= 20:
-                self.total_liquido_ml = 1000 + (self.weight - 10) * 50  
-                self.formula = '1.000ml + 50ml/Kg/dia para cada kg acima de 10kg'
-            else:
-                self.total_liquido_ml = 1500 + (self.weight - 20) * 20  
-                self.formula = '1.500ml + 20ml/Kg/dia para cada kg acima de 20kg'
+        if self.weight <= 10:
+            self.total_liquido_ml = self.weight * 100
+            self.formula = '100ml/kg/dia'
+        elif self.weight <= 20:
+            self.total_liquido_ml = 1000 + (self.weight - 10) * 50  
+            self.formula = '1.000ml + 50ml/Kg/dia para cada kg acima de 10kg'
+        elif self.weight <= 30:
+            self.total_liquido_ml = 1500 + (self.weight - 20) * 20  
+            self.formula = '1.500ml + 20ml/Kg/dia para cada kg acima de 20kg'
         else:
             self.total_liquido_ml = 60 * self.weight
             self.formula = '60ml/Kg/dia'
-
-
 
     def  get_qtde_liquido(self):
         return f'{round(self.total_liquido_ml,0)}ml'
