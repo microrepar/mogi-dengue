@@ -2,7 +2,7 @@ import datetime
 import os
 
 from dotenv import load_dotenv
-from flask import Flask, render_template, request
+from flask import Flask, jsonify, render_template, request
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
@@ -43,6 +43,22 @@ def index():
         db.session.commit()
         return render_template('resultado.html', context=usuario)
     return render_template('index.html', form=form)
+
+
+@app.route('/api/usuarios')
+def get_usuarios():
+    usuarios = Usuario.query.all()
+    usuarios_json = []
+    for usuario in usuarios:
+        usuarios_json.append({
+            'id': usuario.id,
+            'gender': usuario.gender,
+            'age': usuario.age,
+            'weight': usuario.weight,
+            'date': usuario.date.isoformat(),
+            'created_at': usuario.created_at.isoformat(),
+        })
+    return jsonify(usuarios_json)
 
 
 class CalculoForm(FlaskForm):
