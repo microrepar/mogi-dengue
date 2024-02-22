@@ -9,7 +9,7 @@ services:
     volumes:
       - .:/code
     ports:
-      - 5000:5000
+      - 8090:5000
     env_file:
       - .env
     # depends_on:
