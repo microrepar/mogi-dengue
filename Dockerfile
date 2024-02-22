@@ -19,4 +19,4 @@ ENV FLASK_APP=app.py
 EXPOSE 5000
 
 # Comando para executar a aplicação Flask quando o contêiner for iniciado
-CMD ["flask", "run", "--host=0.0.0.0"]
+# CMD ["flask", "run", "--host=0.0.0.0"]
