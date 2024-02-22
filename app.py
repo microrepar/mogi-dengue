@@ -9,7 +9,7 @@ from flask_wtf import FlaskForm
 from flask_wtf.csrf import CSRFProtect
 from wtforms import (DateField, DecimalField, IntegerField, RadioField,
                      SubmitField, ValidationError)
-from wtforms.validators import InputRequired
+from wtforms.validators import InputRequired, NumberRange
 
 # Carregar variáveis de ambiente do arquivo .env
 load_dotenv()
@@ -47,8 +47,10 @@ def index():
 
 class CalculoForm(FlaskForm):
     gender = RadioField('Sexo', choices=[('male', 'Masculino'), ('female', 'Feminino')], validators=[InputRequired(message="Este campo é obrigatório.")])
-    age = IntegerField('Idade', validators=[InputRequired(message="Este campo é obrigatório.")])
-    weight = DecimalField('Peso(kg)', validators=[InputRequired(message="Este campo é obrigatório.")])
+    age = IntegerField('Idade', validators=[InputRequired(message="Este campo é obrigatório."),
+                                            NumberRange(min=1)])
+    weight = DecimalField('Peso(kg)', validators=[InputRequired(message="Este campo é obrigatório."),
+                                                  NumberRange(min=1)])
     date_input = DateField('Data de início dos sintomas', validators=[InputRequired(message="Este campo é obrigatório.")])
     submit = SubmitField('Calcular')
 
