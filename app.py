@@ -2,7 +2,7 @@ import datetime
 import os
 
 from dotenv import load_dotenv
-from flask import Flask, flash, redirect, render_template, request, url_for
+from flask import Flask, render_template, request
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
@@ -35,7 +35,7 @@ def index():
             gender=form.gender.data,
             age=form.age.data,
             weight=form.weight.data,
-            date=form.date.data
+            date=form.date_input.data
         )
         usuario.calcular()
         # Adicionar o usuario ao banco de dados
@@ -48,14 +48,13 @@ def index():
 class CalculoForm(FlaskForm):
     gender = RadioField('Sexo', choices=[('male', 'Masculino'), ('female', 'Feminino')], validators=[InputRequired(message="Este campo é obrigatório.")])
     age = IntegerField('Idade', validators=[InputRequired(message="Este campo é obrigatório.")])
-    weight = DecimalField('Peso', validators=[InputRequired(message="Este campo é obrigatório.")])
-    date = DateField('Data de início dos sintomas', validators=[InputRequired(message="Este campo é obrigatório.")])
+    weight = DecimalField('Peso(kg)', validators=[InputRequired(message="Este campo é obrigatório.")])
+    date_input = DateField('Data de início dos sintomas', validators=[InputRequired(message="Este campo é obrigatório.")])
     submit = SubmitField('Calcular')
 
-    def validate_date(form, field):
+    def validate_date_input(form, field):
         if field.data.year != 2024 or field.data > datetime.date.today():
             raise ValidationError('A data deve ser em 2024 e não pode ser maior que a data atual.')
-
 
 class Usuario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -78,14 +77,24 @@ class Usuario(db.Model):
         )
     
     def calcular(self) :
-        if self.weight <= 10:
-            self.total_liquido_ml = self.weight * 100
-        elif self.weight <= 20:
-            self.total_liquido_ml = 1000 + (self.weight - 10) * 50  
-        elif self.weight <= 30:
-            self.total_liquido_ml = 1500 + (self.weight - 20) * 20  
+        if self.age <= 16:
+            if self.weight <= 10:
+                self.total_liquido_ml = self.weight * 100
+                self.formula = '100ml/kg/dia'
+            elif self.weight <= 20:
+                self.total_liquido_ml = 1000 + (self.weight - 10) * 50  
+                self.formula = '1.000ml + 50ml/Kg/dia para cada kg acima de 10kg'
+            else:
+                self.total_liquido_ml = 1500 + (self.weight - 20) * 20  
+                self.formula = '1.500ml + 20ml/Kg/dia para cada kg acima de 20kg'
         else:
-            self.total_liquido_ml = 1500 + (self.weight - 20) * 20  
+            self.total_liquido_ml = 60 * self.weight
+            self.formula = '60ml/Kg/dia'
+
+
+
+    def  get_qtde_liquido(self):
+        return f'{round(self.total_liquido_ml,0)}ml'
 
 
 if __name__ == '__main__':

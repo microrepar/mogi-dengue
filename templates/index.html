@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt_BR">
+<html lang="pt">
 
 <head>
   <meta charset="UTF-8">
@@ -7,7 +7,7 @@
   <title>
     Mogi Dengue - Prefeitura de Mogi das Cruzes
   </title>
-  <link rel="icon" href="static/images/brasao_mogi.png">
+  <link rel="icon" href="{{ url_for('static', filename='images/brasao_mogi.png') }}">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
     .navbar-brand {
@@ -18,6 +18,11 @@
     .navbar {
       min-height: 80px;
     }
+
+    .content{
+      flex: 1 0 auto;
+      margin-bottom: 100px;
+    }
   </style>
 </head>
 
@@ -25,14 +30,14 @@
 
   <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-center">
     <a class="navbar-brand mx-auto" href="{{ url_for('index') }}">
-      <img src="static/images/logo_mogi.png" alt="Logo" style="height:60px;">
+      <img src="{{ url_for('static', filename='images/logo_mogi.png') }}" alt="Logo" style="height:60px;">
     </a>
     <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
       <!-- Navbar content here -->
     </div>
   </nav>
 
-  <div class="container mt-5">
+  <div class="container mt-5 content">
     <div class="row">
       <div class="col-md-6 offset-md-3">
         <div class="card">
@@ -74,9 +79,9 @@
                   {% endfor %}
               </div>
               <div class="form-group">
-                  {{ form.date.label(class="control-label") }}
-                  {{ form.date(class="form-control", placeholder="Data início sintomas DD/MM/AAAA") }}
-                  {% for error in form.date.errors %}
+                  {{ form.date_input.label(class="control-label") }}
+                  {{ form.date_input(class="form-control", placeholder="Data início sintomas DD/MM/AAAA") }}
+                  {% for error in form.date_input.errors %}
                       <div class="alert alert-danger">
                           {{ error }}
                       </div>
@@ -91,7 +96,7 @@
     </div>
   </div>
 
-  <footer class="footer mt-5 py-3 bg-light">
+  <footer class="footer mt-5 py-3 bg-light fixed-bottom">
     <div class="container text-center">
       <span class="text-muted">Desenvolvido pela CODATA - PMMC</span>
     </div>
@@ -100,6 +105,7 @@
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 
 </html>
