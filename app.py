@@ -62,9 +62,11 @@ def get_usuarios():
 
 
 class CalculoForm(FlaskForm):
-    gender = RadioField('Sexo', choices=[('male', 'Masculino'), ('female', 'Feminino')], validators=[InputRequired(message="Este campo é obrigatório.")])
+    gender = RadioField('Sexo', choices=[('male', 'Masculino'), ('female', 'Feminino')], 
+                        validators=[InputRequired(message="Este campo é obrigatório.")])
+    
     age = IntegerField('Idade', validators=[InputRequired(message="Este campo é obrigatório."),
-                                            NumberRange(min=1)])
+                                            NumberRange(message='O número dever 0 ou maior', min=0)])
     weight = DecimalField('Peso(kg)', validators=[InputRequired(message="Este campo é obrigatório."),
                                                   NumberRange(min=1)])
     date_input = DateField('Data de início dos sintomas', validators=[InputRequired(message="Este campo é obrigatório.")])
