@@ -17,6 +17,7 @@ load_dotenv()
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY') or 'mySecretKey'
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI') or 'sqlite:///dados.db'
+app.config['WTF_CSRF_ENABLED'] = False
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -26,9 +27,26 @@ db.init_app(app)
 migrate.init_app(app, db)
 csrf.init_app(app)
 
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     form = CalculoForm()
+    usuario = validacao_form(form)
+    if usuario is not None:
+        return render_template('resultado.html', context=usuario)
+    return render_template('index.html', form=form)
+
+
+@app.route('/iframe', methods=['GET', 'POST'])
+def iframe():
+    form = CalculoForm()
+    usuario = validacao_form(form)
+    if usuario is not None:
+        return render_template('resultado_iframe.html', context=usuario)
+    return render_template('index_iframe.html', form=form)
+
+
+def validacao_form(form):
     if form.validate_on_submit():
         # Criar um novo usuario com os dados do formulário
         usuario = Usuario(
@@ -41,8 +59,7 @@ def index():
         # Adicionar o usuario ao banco de dados
         db.session.add(usuario)
         db.session.commit()
-        return render_template('resultado.html', context=usuario)
-    return render_template('index.html', form=form)
+        return usuario
 
 
 @app.route('/api/usuarios')
@@ -75,6 +92,7 @@ class CalculoForm(FlaskForm):
     def validate_date_input(form, field):
         if field.data.year != 2024 or field.data > datetime.date.today():
             raise ValidationError('A data deve ser em 2024 e não pode ser maior que a data atual.')
+
 
 class Usuario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -122,4 +140,3 @@ if __name__ == '__main__':
         db.create_all()
     # Iniciar o aplicativo Flask
     app.run(host='0.0.0.0', port=5000, debug=True)
-

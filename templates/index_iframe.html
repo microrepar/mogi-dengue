@@ -1,0 +1,63 @@
+{% include 'base_iframe.html' %}
+  
+
+{% block content %}
+  <div class="container mt-5 content">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <div class="card">
+          <div class="card-header text-center">
+            <h4>Mogi Contra a Dengue</h4>
+          </div>
+          <div class="card-body">            
+            <form method="post" novalidate>
+              {{ form.csrf_token }}
+              <div class="form-group">
+                  {{ form.gender.label(class="control-label") }}
+                  {% for subfield in form.gender %}
+                      <div class="form-check">
+                          {{ subfield(class="form-check-input") }} {{ subfield.label(class="form-check-label") }}
+                      </div>
+                  {% endfor %}
+                  {% for error in form.gender.errors %}
+                      <div class="alert alert-danger">
+                          {{ error }}
+                      </div>
+                  {% endfor %}
+              </div>
+              <div class="form-group">
+                  {{ form.age.label(class="control-label") }}
+                  {{ form.age(class="form-control", placeholder="Digite a idade") }}
+                  {% for error in form.age.errors %}
+                      <div class="alert alert-danger">
+                          {{ error }}
+                      </div>
+                  {% endfor %}
+              </div>
+              <div class="form-group">
+                  {{ form.weight.label(class="control-label") }}
+                  {{ form.weight(class="form-control", placeholder="Digite o peso (kg)") }}
+                  {% for error in form.weight.errors %}
+                      <div class="alert alert-danger">
+                          {{ error }}
+                      </div>
+                  {% endfor %}
+              </div>
+              <div class="form-group">
+                  {{ form.date_input.label(class="control-label") }}
+                  {{ form.date_input(class="form-control", placeholder="Data início sintomas DD/MM/AAAA") }}
+                  {% for error in form.date_input.errors %}
+                      <div class="alert alert-danger">
+                          {{ error }}
+                      </div>
+                  {% endfor %}
+              </div>
+              {{ form.submit(class="btn btn-primary float-right") }}
+            </form>
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

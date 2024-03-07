@@ -1,0 +1,21 @@
+{% extends 'base_iframe.html' %}
+
+{% block content %}
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <div class="card">
+          <div class="card-header text-center">
+            <h4>Resultado do Cálculo</h4>
+          </div>
+          <div class="card-body">
+            <p class="lead">Total de Líquido em mililitros/dia: <strong>{{ context.get_qtde_liquido() }}</strong> </p>
+            <p>Na proporção de 1/3 de solução de reidratação oral e 2/3 de outros líquidos.</p>
+            <p>Fórmula de hidratação oral: {{ context.formula }} </p>
+            <a href="{{ url_for('iframe') }}" class="btn btn-primary float-right">Novo Cálculo</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
