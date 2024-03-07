@@ -83,7 +83,7 @@ class CalculoForm(FlaskForm):
                         validators=[InputRequired(message="Este campo é obrigatório.")])
     
     age = IntegerField('Idade', validators=[InputRequired(message="Este campo é obrigatório."),
-                                            NumberRange(message='O número dever 0 ou maior', min=0)])
+                                            NumberRange(message='O campo idade dever 0 ou maior', min=0)])
     weight = DecimalField('Peso(kg)', validators=[InputRequired(message="Este campo é obrigatório."),
                                                   NumberRange(min=1)])
     date_input = DateField('Data de início dos sintomas', validators=[InputRequired(message="Este campo é obrigatório.")])
