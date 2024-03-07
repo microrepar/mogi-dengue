@@ -83,7 +83,8 @@ class Usuario(db.Model):
     weight = db.Column(db.Float, nullable=False)
     date = db.Column(db.Date, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.datetime.now)
-    PROPORCAO = '1/3 de solução de reidratação oral e 2/3 de outros liquídos.'
+    PROPORCAO = 'Sendo 1/3 de sais de reidratação oral e no início com volume maior. Para os 2/3 restantes, efetuar injestão de liquídos caseiros (água, suco de frutas, soro caseiro, chás, água de coco, etc...)'
+
 
     def __str__(self):
         return (
@@ -98,14 +99,14 @@ class Usuario(db.Model):
     
     def calcular(self) :
         if self.weight <= 10:
-            self.total_liquido_ml = self.weight * 100
-            self.formula = '100ml/kg/dia'
+            self.total_liquido_ml = 130 *self.weight
+            self.formula = '130ml/kg/dia'
         elif self.weight <= 20:
-            self.total_liquido_ml = 1000 + (self.weight - 10) * 50  
-            self.formula = '1.000ml + 50ml/Kg/dia para cada kg acima de 10kg'
+            self.total_liquido_ml =  100 * self.weight
+            self.formula = '100ml/Kg/dia'
         elif self.weight <= 30:
-            self.total_liquido_ml = 1500 + (self.weight - 20) * 20  
-            self.formula = '1.500ml + 20ml/Kg/dia para cada kg acima de 20kg'
+            self.total_liquido_ml = 80 * self.weight
+            self.formula = '80ml/Kg/dia'
         else:
             self.total_liquido_ml = 60 * self.weight
             self.formula = '60ml/Kg/dia'
