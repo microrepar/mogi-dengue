@@ -12,6 +12,7 @@
             <p class="lead">Total de Líquido em mililitros/dia: <strong>{{ context.get_qtde_liquido() }}</strong> </p>
             <p>Na proporção de 1/3 de solução de reidratação oral e 2/3 de outros líquidos.</p>
             <p>Fórmula de hidratação oral: {{ context.formula }} </p>
+            <p><strong style="color: red">Atenção!</strong> Isso é apenas uma estimativa do volume a ser administrado em caso de dengue. Se você possui alguma comorbidade como diabetes, doença cardíaca ou renal, procure o mais rápido possível o atendimento médico.</p>
             <a href="{{ url_for('index') }}" class="btn btn-primary float-right">Novo Cálculo</a>
           </div>
         </div>

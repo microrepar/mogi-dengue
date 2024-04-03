@@ -101,7 +101,9 @@ class Usuario(db.Model):
     weight = db.Column(db.Float, nullable=False)
     date = db.Column(db.Date, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.datetime.now)
-    PROPORCAO = 'Sendo 1/3 de sais de reidratação oral e no início com volume maior. Para os 2/3 restantes, efetuar injestão de liquídos caseiros (água, suco de frutas, soro caseiro, chás, água de coco, etc...)'
+    PROPORCAO = ('Sendo 1/3 de sais de reidratação oral e no início com volume maior. '
+                 'Para os 2/3 restantes, efetuar injestão de liquídos caseiros (água, '
+                 'suco de frutas, soro caseiro, chás, água de coco, etc...)')
 
 
     def __str__(self):
