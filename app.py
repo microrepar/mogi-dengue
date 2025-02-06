@@ -90,8 +90,8 @@ class CalculoForm(FlaskForm):
     submit = SubmitField('Calcular')
 
     def validate_date_input(form, field):
-        if field.data.year != 2024 or field.data > datetime.date.today():
-            raise ValidationError('A data deve ser em 2024 e não pode ser maior que a data atual.')
+        if field.data < (datetime.date.today() - datetime.timedelta(days=30)) or field.data > datetime.date.today():
+            raise ValidationError('Atenção! A data de início dos sintomas não deve ser anterior a 30 dias ou maior que a data atual.')
 
 
 class Usuario(db.Model):
